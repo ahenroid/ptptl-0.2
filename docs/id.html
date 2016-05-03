@@ -1,0 +1,798 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Identity</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Identity</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/id.h&gt;
+
+class        <A HREF="#TAG0000">PTP::Identity</A>                  <I></I>;
+
+const        <A HREF="#TAG0001">PTP::Identity::KEY_SIZE</A>        <I></I>;
+const        <A HREF="#TAG0002">PTP::Identity::KEY_EXPONENT</A>    <I></I>;
+const        <A HREF="#TAG0003">PTP::Identity::PLAINTEXT_SIZE</A>  <I></I>;
+const        <A HREF="#TAG0004">PTP::Identity::CIPHERTEXT_SIZE</A> <I></I>;
+const        <A HREF="#TAG0005">PTP::Identity::SIGNATURE_SIZE</A>  <I></I>;
+
+             <A HREF="#TAG0006">PTP::Identity::Identity</A>        (const char * <I>name</I>);
+             <A HREF="#TAG0007">PTP::Identity::~Identity</A>       (<I></I>);
+const char * <A HREF="#TAG0008">PTP::Identity::GetName</A>         () const;
+const char * <A HREF="#TAG0009">PTP::Identity::GetIssuerName</A>   () const;
+char *       <A HREF="#TAG0010">PTP::Identity::GetName</A>         (int <I>nid</I>) const;
+void         <A HREF="#TAG0011">PTP::Identity::SetName</A>         (int <I>nid</I>,
+                                             const char * <I>value</I>);
+int          <A HREF="#TAG0012">PTP::Identity::GetKey</A>          (BYTE * <I>data</I>) const;
+char *       <A HREF="#TAG0013">PTP::Identity::GetIssuerName</A>   (int <I>nid</I>) const;
+void         <A HREF="#TAG0014">PTP::Identity::SetIssuerName</A>   (int <I>nid</I>,
+                                             const char * <I>value</I>);
+char *       <A HREF="#TAG0015">PTP::Identity::GetExpiration</A>   () const;
+int          <A HREF="#TAG0016">PTP::Identity::Encrypt</A>         (const BYTE * <I>plain</I>,
+                                             int <I>size</I>,
+                                             BYTE * <I>cipher</I>) const;
+int          <A HREF="#TAG0017">PTP::Identity::Decrypt</A>         (const BYTE * <I>cipher</I>,
+                                             BYTE * <I>plain</I>) const;
+int          <A HREF="#TAG0018">PTP::Identity::Verify</A>          (const BYTE * <I>data</I>,
+                                             int <I>size</I>,
+                                             const BYTE * <I>sign</I>) const;
+int          <A HREF="#TAG0019">PTP::Identity::Sign</A>            (const BYTE * <I>data</I>,
+                                             int <I>size</I>,
+                                             BYTE * <I>sign</I>) const;
+int          <A HREF="#TAG0020">PTP::Identity::Verify</A>          (<A HREF="#TAG0000">Identity</A> * <I>subj</I>) const;
+int          <A HREF="#TAG0021">PTP::Identity::Sign</A>            (<A HREF="#TAG0000">Identity</A> * <I>subj</I>,
+                                             unsigned <I>expire</I>) const;
+int          <A HREF="#TAG0022">PTP::Identity::ExportKey</A>       (PTP::Key * <I>key</I>,
+                                             BYTE * <I>data</I>);
+PTP::Key *   <A HREF="#TAG0023">PTP::Identity::ImportKey</A>       (BYTE * <I>data</I>,
+                                             int <I>size</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Identity</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Identity<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Identity and X509v3 certificate support.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Identity::KEY_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const KEY_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Public key (RSA modulus) size.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Identity::KEY_EXPONENT</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const KEY_EXPONENT<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Public key (RSA) exponent.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Identity::PLAINTEXT_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const PLAINTEXT_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Maximum plaintext size for <A HREF="#TAG0016">Encrypt</A> and <A HREF="#TAG0017">Decrypt</A>.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Identity::CIPHERTEXT_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const CIPHERTEXT_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Ciphertext size for <A HREF="#TAG0016">Encrypt</A> and <A HREF="#TAG0017">Decrypt</A>.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Identity::SIGNATURE_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const SIGNATURE_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Digital signature size for <A HREF="#TAG0019">Sign</A> and <A HREF="#TAG0018">Verify</A>.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Identity::Identity</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Identity (const char * <I>name</I>);
+
+     <I>name</I> :  Subject common name or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity john("John Doe");
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Identity::~Identity</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Identity (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Identity::GetName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const char * GetName () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Common name.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::Identity::GetIssuerName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const char * GetIssuerName () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Certificate issuer's common name.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::Identity::GetName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+char * GetName (int <I>nid</I>) const;
+
+     <I>nid</I> :  Element identifier (<B>COMMON_NAME</B>, <B>EMAIL_ADDRESS</B>, ...).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Get subject name element.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Allocated name string or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ It is the caller's responsibility to free the returned string.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  char *org = id-><B>GetName</B>(PTP::Identity::ORGANIZATION_NAME);
+  if (org)
+      printf("Organization: %s\n", org);
+  delete [] org;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::Identity::SetName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void SetName (int <I>nid</I>,
+              const char * <I>value</I>);
+
+     <I>nid</I> :  Element identifier (<B>COMMON_NAME</B>, <B>EMAIL_ADDRESS</B>, ...).
+     <I>value</I> :  
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Set subject name element.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  id-><B>SetName</B>(PTP::Identity::COUNTRY_NAME, "Canada");
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::Identity::GetKey</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int GetKey (BYTE * <I>data</I>) const;
+
+     <I>data</I> :  [<B>OUT</B>] Key modulus (<A HREF="#TAG0001">KEY_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Retrieve public key (RSA) modulus.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0001">KEY_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE modulus[PTP::Identity::KEY_SIZE];
+  id-><B>GetKey</B>(modulus);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::Identity::GetIssuerName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+char * GetIssuerName (int <I>nid</I>) const;
+
+     <I>nid</I> :  Element identifier (<B>COMMON_NAME</B>, <B>EMAIL_ADDRESS</B>, ...).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Get certificate issuer name element.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Allocated name string or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ It is the caller's responsibility to free the returned string.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  char *prov = id-><B>GetIssuerName</B>(PTP::Identity::STATE_OR_PROVINCE_NAME);
+  if (prov)
+      printf("State/Province: %s\n", prov);
+  delete [] prov;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0014"></A>PTP::Identity::SetIssuerName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void SetIssuerName (int <I>nid</I>,
+                    const char * <I>value</I>);
+
+     <I>nid</I> :  Element identifier (<B>COMMON_NAME</B>, <B>EMAIL_ADDRESS</B>, ...).
+     <I>value</I> :  
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Set certificate issuer name element.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  id-><B>SetIssuerName</B>(PTP::Identity::EMAIL_ADDRESS, "john@doe.org");
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0015"></A>PTP::Identity::GetExpiration</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+char * GetExpiration () const;
+
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Get certificate expiration time.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Expiration time string or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ It is the caller's responsibility to free the returned string.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  char *expire = id-><B>GetExpiration</B>();
+  if (expire)
+      printf("Expiration: %s\n", expire);
+  delete [] expire;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0016"></A>PTP::Identity::Encrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Encrypt (const BYTE * <I>plain</I>,
+             int <I>size</I>,
+             BYTE * <I>cipher</I>) const;
+
+     <I>plain</I> :  Plaintext data.
+     <I>size</I> :  Plaintext size (<A HREF="#TAG0003">PLAINTEXT_SIZE</A> bytes or less).
+     <I>cipher</I> :  [<B>OUT</B>] Ciphertext data (<A HREF="#TAG0004">CIPHERTEXT_SIZE</A> bytes) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Encrypt data with public key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0004">CIPHERTEXT_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE plain[] = ...;
+  BYTE cipher[PTP::Identity::CIPHERTEXT_SIZE];
+  int ok = (id-><B>Encrypt</B>(plain, sizeof(plain), cipher) > 0);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0017"></A>PTP::Identity::Decrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Decrypt (const BYTE * <I>cipher</I>,
+             BYTE * <I>plain</I>) const;
+
+     <I>cipher</I> :  Ciphertext data (<A HREF="#TAG0004">CIPHERTEXT_SIZE</A> bytes).
+     <I>plain</I> :  [<B>OUT</B>] Plaintext (<A HREF="#TAG0003">PLAINTEXT_SIZE</A> bytes or less) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Decrypt data with <B>private</B> key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Plaintext size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE cipher[PTP::Identity::CIPHERTEXT_SIZE] = ...;
+  BYTE plain[PTP::Identity::PLAINTEXT_SIZE];
+  int ok = (id-><B>Decrypt</B>(cipher, plain) > 0);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0018"></A>PTP::Identity::Verify</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Verify (const BYTE * <I>data</I>,
+            int <I>size</I>,
+            const BYTE * <I>sign</I>) const;
+
+     <I>data</I> :  Signed data.
+     <I>size</I> :  Data size (!not including the signature).
+     <I>sign</I> :  Signature data (<A HREF="#TAG0005">SIGNATURE_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Check digitally signed data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on valid signature or -1 if invalid.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE dataAndSignature[] = ...;
+  int datasize = ...;
+  int valid = (id-><B>Verify</B>(dataAndSignature,
+                          datasize,
+                          dataAndSignature + datasize) == 0);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0019"></A>PTP::Identity::Sign</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Sign (const BYTE * <I>data</I>,
+          int <I>size</I>,
+          BYTE * <I>sign</I>) const;
+
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Buffer size.
+     <I>sign</I> :  [<B>OUT</B>] Signature data (<A HREF="#TAG0005">SIGNATURE_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Digitally sign data with <B>private</B> key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0005">SIGNATURE_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE plain[] = ...;
+  BYTE cipher[PTP::Identity::CIPHERTEXT_SIZE];
+  BYTE sign[PTP::Identity::SIGNATURE_SIZE];
+  id->Encrypt(plain, sizeof(plain), cipher);
+  id-><B>Sign</B>(cipher, sizeof(cipher), sign);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0020"></A>PTP::Identity::Verify</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Verify (<A HREF="#TAG0000">Identity</A> * <I>subj</I>) const;
+
+     <I>subj</I> :  Identity and certificate.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Check a digitally signed certificate.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on valid signature or -1 if invalid.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ A certificate can be invalid because it has a bad signature
+       or it can be invalid because the signature has expired.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  printf("%s Certificate\n", id-><B>Verify</B>(id) ? "Invalid":"Valid");
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0021"></A>PTP::Identity::Sign</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Sign (<A HREF="#TAG0000">Identity</A> * <I>subj</I>,
+          unsigned <I>expire</I>) const;
+
+     <I>subj</I> :  Identity and certificate to sign.
+     <I>expire</I> :  Time (in seconds) until signature expires.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Digitally sign a certificate with <B>private</B> key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *issuer = ...;
+  PTP::Identity *subject = ...;
+  issuer-><B>Sign</B>(subject, 30 * 24 * 60 * 60); // sign for 30 days
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0022"></A>PTP::Identity::ExportKey</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int ExportKey (PTP::Key * <I>key</I>,
+               BYTE * <I>data</I>);
+
+     <I>key</I> :  Session key.
+     <I>data</I> :  [<B>OUT</B>] Exported key data (<A HREF="#TAG0004">CIPHERTEXT_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Encrypt and export a session key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0004">CIPHERTEXT_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  PTP::Key *key = ...;
+  BYTE data[PTP::Identity::CIPHERTEXT_SIZE];
+  id-><B>ExportKey</B>(key, data);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0023"></A>PTP::Identity::ImportKey</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+PTP::Key * ImportKey (BYTE * <I>data</I>,
+                      int <I>size</I>);
+
+     <I>data</I> :  Encrypted session key data.
+     <I>size</I> :  Data size.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Decrypt and import a session key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Session key on success or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE data[PTP::Identity::CIPHERTEXT_SIZE];
+  // receive data[]
+  PTP::Key *key = id-><B>ImportKey</B>(data, sizeof(data));
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

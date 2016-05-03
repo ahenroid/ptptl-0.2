@@ -1,0 +1,944 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Net</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Net</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/net.h&gt;
+
+class                      <A HREF="#TAG0000">PTP::Net</A>                          <I></I>;
+
+const                      <A HREF="#TAG0003">PTP::Net::LOOPBACK</A>                <I></I>;
+const                      <A HREF="#TAG0004">PTP::Net::ANY</A>                     <I></I>;
+const                      <A HREF="#TAG0005">PTP::Net::INVALID</A>                 <I></I>;
+
+typedef unsigned long      <A HREF="#TAG0001">PTP::Net::Ip</A>                      <I></I>;
+typedef unsigned short     <A HREF="#TAG0002">PTP::Net::Port</A>                    <I></I>;
+
+static <A HREF="#TAG0001">PTP::Net::Ip</A>        <A HREF="#TAG0011">PTP::Net::Lookup</A>                  (const char * <I>url</I>,
+                                                              <A HREF="#TAG0002">Port</A> * <I>port</I>,
+                                                              <A HREF="#TAG0002">Port</A> <I>defport</I>);
+
+class                      <A HREF="#TAG0006">PTP::Net::Connection</A>              <I></I>;
+
+const                      <A HREF="#TAG0007">PTP::Net::Connection::RAW</A>         <I></I>;
+const                      <A HREF="#TAG0008">PTP::Net::Connection::HTTP</A>        <I></I>;
+const                      <A HREF="#TAG0009">PTP::Net::Connection::OUTBOUND</A>    <I></I>;
+const                      <A HREF="#TAG0010">PTP::Net::Connection::INBOUND</A>     <I></I>;
+
+                           <A HREF="#TAG0012">PTP::Net::Connection::Connection</A>  (Type <I>type</I>,
+                                                              <A HREF="#TAG0001">Net::Ip</A> <I>ip</I>,
+                                                              <A HREF="#TAG0002">Net::Port</A> <I>port</I>);
+                           <A HREF="#TAG0013">PTP::Net::Connection::Connection</A>  (Type <I>type</I>,
+                                                              <A HREF="#TAG0002">Net::Port</A> <I>port</I>);
+                           <A HREF="#TAG0014">PTP::Net::Connection::Connection</A>  (Type <I>type</I>,
+                                                              Dir <I>dir</I>,
+                                                              int <I>s</I>,
+                                                              int <I>close</I>);
+                           <A HREF="#TAG0015">PTP::Net::Connection::~Connection</A> (<I></I>);
+PTP::Net::Connection::Type <A HREF="#TAG0016">PTP::Net::Connection::GetType</A>     () const;
+PTP::Net::Connection::Dir  <A HREF="#TAG0017">PTP::Net::Connection::GetDir</A>      () const;
+<A HREF="#TAG0001">PTP::Net::Ip</A>               <A HREF="#TAG0018">PTP::Net::Connection::GetIp</A>       () const;
+<A HREF="#TAG0002">PTP::Net::Port</A>             <A HREF="#TAG0019">PTP::Net::Connection::GetPort</A>     () const;
+int                        <A HREF="#TAG0020">PTP::Net::Connection::GetSocket</A>   () const;
+int                        <A HREF="#TAG0021">PTP::Net::Connection::Open</A>        (int <I>timeout</I>);
+void                       <A HREF="#TAG0022">PTP::Net::Connection::Close</A>       (<I></I>);
+<A HREF="#TAG0006">PTP::Net::Connection</A> *     <A HREF="#TAG0023">PTP::Net::Connection::Accept</A>      (int <I>detType</I>);
+char *                     <A HREF="#TAG0024">PTP::Net::Connection::ReadHttpHdr</A> (char * <I>hdr</I>,
+                                                              int <I>maxsize</I>,
+                                                              int * <I>status</I>,
+                                                              int * <I>contentsize</I>,
+                                                              int <I>timeout</I>);
+BYTE *                     <A HREF="#TAG0025">PTP::Net::Connection::ReadHttp</A>    (BYTE * <I>data</I>,
+                                                              int <I>maxsize</I>,
+                                                              int * <I>status</I>,
+                                                              int * <I>contentsize</I>,
+                                                              int <I>timeout</I>);
+int                        <A HREF="#TAG0026">PTP::Net::Connection::WriteHttp</A>   (const char * <I>method</I>,
+                                                              const char * <I>url</I>,
+                                                              const char * <I>hdr</I>,
+                                                              const BYTE * <I>data</I>,
+                                                              const char * <I>type</I>,
+                                                              int <I>size</I>);
+int                        <A HREF="#TAG0027">PTP::Net::Connection::WriteHttp</A>   (int <I>status</I>,
+                                                              const char * <I>hdr</I>,
+                                                              const BYTE * <I>data</I>,
+                                                              const char * <I>type</I>,
+                                                              int <I>size</I>);
+int                        <A HREF="#TAG0028">PTP::Net::Connection::ReadAll</A>     (BYTE * <I>data</I>,
+                                                              int <I>size</I>,
+                                                              int <I>timeout</I>);
+int                        <A HREF="#TAG0029">PTP::Net::Connection::WriteAll</A>    (const BYTE * <I>data</I>,
+                                                              int <I>size</I>);
+int                        <A HREF="#TAG0030">PTP::Net::Connection::Read</A>        (BYTE * <I>data</I>,
+                                                              int <I>size</I>,
+                                                              int <I>timeout</I>);
+int                        <A HREF="#TAG0031">PTP::Net::Connection::Unget</A>       (const BYTE * <I>data</I>,
+                                                              int <I>size</I>);
+static void                <A HREF="#TAG0032">PTP::Net::Connection::SetProxy</A>    (<A HREF="#TAG0001">Net::Ip</A> <I>ip</I>,
+                                                              <A HREF="#TAG0002">Net::Port</A> <I>port</I>,
+                                                              int <I>timeout</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Net</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Net<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Simple networking support.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Net::LOOPBACK</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const LOOPBACK<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Default local IP address.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Net::ANY</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const ANY<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Any IP address or port.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Net::INVALID</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const INVALID<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Invalid IP address or port.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Net::Ip</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+typedef unsigned long Ip<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ IP address.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Net::Port</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+typedef unsigned short Port<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ TCP port number.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::Net::Lookup</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static <A HREF="#TAG0001">PTP::Net::Ip</A> Lookup (const char * <I>url</I>,
+                            <A HREF="#TAG0002">Port</A> * <I>port</I>,
+                            <A HREF="#TAG0002">Port</A> <I>defport</I>);
+
+     <I>url</I> :  URL string or "localhost" for local address.
+     <I>port</I> :  [<B>OUT</B>] URL port number or NULL.
+     <I>defport</I> :  Default port number or 0 for none (default).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Lookup IP address and port of a URL.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ IP address or <A HREF="#TAG0005">INVALID</A> on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Port port;
+  PTP::Net::Ip ip = PTP::Net::Lookup("http://www.linux.org", &port, 8080);
+  if (ip == PTP::Net::INVALID)
+     return -1;
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Net::Connection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Net::Connection<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Simple network connection</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Net::Connection::RAW</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const RAW<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Raw application data type.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Net::Connection::HTTP</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const HTTP<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ HTTP data type.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::Net::Connection::OUTBOUND</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const OUTBOUND<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ 
+Connection originating from the local machine.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::Net::Connection::INBOUND</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const INBOUND<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ 
+Connection destined to the local machine.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::Net::Connection::Connection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Connection (Type <I>type</I>,
+            <A HREF="#TAG0001">Net::Ip</A> <I>ip</I>,
+            <A HREF="#TAG0002">Net::Port</A> <I>port</I>);
+
+     <I>type</I> :  Connection type (<A HREF="#TAG0007">RAW</A> or <A HREF="#TAG0008">HTTP</A>).
+     <I>ip</I> :  Destination IP address.
+     <I>port</I> :  Destination TCP port.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create an outbound (client) connection.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection c(PTP::Net::Connection::HTTP,
+                         PTP::Net::Lookup("http://www.linux.org"),
+                         80);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::Net::Connection::Connection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Connection (Type <I>type</I>,
+            <A HREF="#TAG0002">Net::Port</A> <I>port</I>);
+
+     <I>type</I> :  Connection type (<A HREF="#TAG0007">RAW</A> or <A HREF="#TAG0008">HTTP</A>).
+     <I>port</I> :  Local TCP port or <A HREF="#TAG0004">ANY</A>.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create an inbound (server) connection.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection c(PTP::Net::Connection::HTTP, 8080);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0014"></A>PTP::Net::Connection::Connection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Connection (Type <I>type</I>,
+            Dir <I>dir</I>,
+            int <I>s</I>,
+            int <I>close</I>);
+
+     <I>type</I> :  Connection type (<A HREF="#TAG0007">RAW</A> or <A HREF="#TAG0008">HTTP</A>).
+     <I>dir</I> :  Connection direction (<A HREF="#TAG0010">INBOUND</A> or <A HREF="#TAG0009">OUTBOUND</A>).
+     <I>s</I> :  Socket.
+     <I>close</I> :  1 to close socket on destruction or 0 to leave socket open.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a connection from an open socket.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  int s = socket(...);
+  connect(s, ...);
+  PTP::Net::Connection c(PTP::Net::Connection::HTTP,
+                         PTP::Net::Connection::OUTBOUND,
+                         s,
+                         1);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0015"></A>PTP::Net::Connection::~Connection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Connection (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Close and destroy connection.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0016"></A>PTP::Net::Connection::GetType</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+PTP::Net::Connection::Type GetType () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Connection type (<A HREF="#TAG0007">RAW</A> or <A HREF="#TAG0008">HTTP</A>).
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0017"></A>PTP::Net::Connection::GetDir</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+PTP::Net::Connection::Dir GetDir () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Connection direction (<A HREF="#TAG0010">INBOUND</A> or <A HREF="#TAG0009">OUTBOUND</A>).
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0018"></A>PTP::Net::Connection::GetIp</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::Net::Ip</A> GetIp () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Connected IP address or <A HREF="#TAG0005">INVALID</A> if none.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0019"></A>PTP::Net::Connection::GetPort</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0002">PTP::Net::Port</A> GetPort () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Connected TCP port or <A HREF="#TAG0005">INVALID</A> if none.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0020"></A>PTP::Net::Connection::GetSocket</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int GetSocket () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Socket or -1 if none.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0021"></A>PTP::Net::Connection::Open</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Open (int <I>timeout</I>);
+
+     <I>timeout</I> :  Milliseconds to wait for connect (0 for infinite timeout).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Open the connection.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success (or already open) or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0021">Open</A> is called automatically if the connection is
+       currently closed and <A HREF="#TAG0023">Accept</A>, <A HREF="#TAG0028">ReadAll</A>, <A HREF="#TAG0029">WriteAll</A>, ...
+       are called.  A direct call to <A HREF="#TAG0021">Open</A> can be useful for
+       verifying that the connection to the remote client will
+       succeed.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection c(PTP::Net::Connection::HTTP,
+                         PTP::Net::Lookup("http://www.linux.org"),
+                         80);
+  if (c.<B>Open</B>() < 0)
+    printf("Can not connect to http://www.linux.org\n");
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0022"></A>PTP::Net::Connection::Close</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Close (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Close the connection.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0023"></A>PTP::Net::Connection::Accept</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0006">PTP::Net::Connection</A> * Accept (int <I>detType</I>);
+
+     <I>detType</I> :  1 to determine connection type.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Accept a new (inbound) connection.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Inbound (client) connection or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection server(PTP::Net::Connection::HTTP, 8080);
+  PTP::Net::Connection *client = server.<B>Accept</B>();
+  if (client)
+  {
+    printf("Connection from %lu.%lu.%lu.%lu:%u\n",
+           (client->GetIp() >> 24) & 0xff,
+           (client->GetIp() >> 16) & 0xff,
+           (client->GetIp() >> 8) & 0xff,
+           (client->GetIp() & 0xff),
+           client->GetPort());
+    delete client;
+  }
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0024"></A>PTP::Net::Connection::ReadHttpHdr</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+char * ReadHttpHdr (char * <I>hdr</I>,
+                    int <I>maxsize</I>,
+                    int * <I>status</I>,
+                    int * <I>contentsize</I>,
+                    int <I>timeout</I>);
+
+     <I>hdr</I> :  [<B>OUT</B>] Header data or NULL to allocate.
+     <I>maxsize</I> :  Maximum header size or -1 for unlimited.
+     <I>status</I> :  [<B>OUT</B>] HTTP status code or NULL.
+     <I>contentsize</I> :  [<B>OUT</B>] Content size or NULL.
+     <I>timeout</I> :  Milliseconds to wait for data or 0 for infinite.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Receive an HTTP header.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Header data on success or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection *c = ...;
+  int status;
+  char *buffer = c-><B>ReadHttpHdr</B>(NULL, 1024, &status, NULL);
+  if (!buffer)
+    return -1;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0025"></A>PTP::Net::Connection::ReadHttp</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+BYTE * ReadHttp (BYTE * <I>data</I>,
+                 int <I>maxsize</I>,
+                 int * <I>status</I>,
+                 int * <I>contentsize</I>,
+                 int <I>timeout</I>);
+
+     <I>data</I> :  [<B>OUT</B>] Data buffer or NULL.
+     <I>maxsize</I> :  Maximum content data size or -1 for unlimited.
+     <I>status</I> :  [<B>OUT</B>] HTTP status code or NULL.
+     <I>contentsize</I> :  [<B>OUT</B>] Content size or NULL.
+     <I>timeout</I> :  Milliseconds to wait for data or 0 for infinite.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Receive an HTTP header and data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Content data on success or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection *c = ...;
+  int size;
+  char *buffer = c-><B>ReadHttp</B>(NULL, 4096, NULL, &size);
+  if (!buffer)
+    return -1;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0026"></A>PTP::Net::Connection::WriteHttp</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int WriteHttp (const char * <I>method</I>,
+               const char * <I>url</I>,
+               const char * <I>hdr</I>,
+               const BYTE * <I>data</I>,
+               const char * <I>type</I>,
+               int <I>size</I>);
+
+     <I>method</I> :  HTTP method (eg. "GET", "PUT", ...).
+     <I>url</I> :  Destination HTTP URL (eg. "/index.html").
+     <I>hdr</I> :  Extra HTTP header information or NULL.
+     <I>data</I> :  Content data or NULL.
+     <I>type</I> :  Content type or NULL for "application/binary".
+     <I>size</I> :  Content size or -1 if <I>data</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Send an HTTP header and data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection *c = ...;
+  c-><B>WriteHttp</B>("GET",
+               "/index.html",
+               "Connection: Keep-Alive\r\n",
+               NULL,
+               NULL,
+               0);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0027"></A>PTP::Net::Connection::WriteHttp</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int WriteHttp (int <I>status</I>,
+               const char * <I>hdr</I>,
+               const BYTE * <I>data</I>,
+               const char * <I>type</I>,
+               int <I>size</I>);
+
+     <I>status</I> :  HTTP status code (<B>HTTP_OK</B>, <B>HTTP_BAD_REQUEST</B>, ...).
+     <I>hdr</I> :  Extra HTTP header information or NULL.
+     <I>data</I> :  Content data or NULL.
+     <I>type</I> :  Content type or NULL for "application/binary".
+     <I>size</I> :  Content size or -1 if <I>data</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Send an HTTP header and data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Net::Connection *c = ...;
+  c-><B>WriteHttp</B>(PTP::Net::HTTP_OK,
+               "Connection: Close\r\n",
+               (const BYTE*) "<HTML></HTML>",
+               "text/html",
+               -1);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0028"></A>PTP::Net::Connection::ReadAll</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int ReadAll (BYTE * <I>data</I>,
+             int <I>size</I>,
+             int <I>timeout</I>);
+
+     <I>data</I> :  [<B>OUT</B>] Data buffer.
+     <I>size</I> :  Buffer size.
+     <I>timeout</I> :  Milliseconds to wait for data or 0 for infinite.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Read data until entire buffer is full.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Number of bytes read or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0029"></A>PTP::Net::Connection::WriteAll</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int WriteAll (const BYTE * <I>data</I>,
+              int <I>size</I>);
+
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Buffer size.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Write data until entire buffer is sent.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Number of bytes written or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0030"></A>PTP::Net::Connection::Read</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Read (BYTE * <I>data</I>,
+          int <I>size</I>,
+          int <I>timeout</I>);
+
+     <I>data</I> :  [<B>OUT</B>] Data buffer.
+     <I>size</I> :  Buffer size.
+     <I>timeout</I> :  Milliseconds to wait for data (0 for infinite timeout).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Read data from connection.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Number of bytes read or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0031"></A>PTP::Net::Connection::Unget</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Unget (const BYTE * <I>data</I>,
+           int <I>size</I>);
+
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Buffer size.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Return data to read queue.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on failure.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0032"></A>PTP::Net::Connection::SetProxy</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void SetProxy (<A HREF="#TAG0001">Net::Ip</A> <I>ip</I>,
+                      <A HREF="#TAG0002">Net::Port</A> <I>port</I>,
+                      int <I>timeout</I>);
+
+     <I>ip</I> :  Proxy IP address.
+     <I>port</I> :  Proxy TCP port.
+     <I>timeout</I> :  Milliseconds to wait for a direct connection
+          (0 for proxy only).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Set proxy settings.</TD></TR></TABLE></BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

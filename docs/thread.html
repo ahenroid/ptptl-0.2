@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Thread</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Thread</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/thread.h&gt;
+
+class       <A HREF="#TAG0000">PTP::Thread</A>         <I></I>;
+
+            <A HREF="#TAG0001">PTP::Thread::Thread</A> (<I></I>);
+int         <A HREF="#TAG0002">PTP::Thread::Start</A>  (StartFunc <I>start</I>,
+                                 void * <I>arg</I>);
+int         <A HREF="#TAG0003">PTP::Thread::Wait</A>   (<I></I>);
+int         <A HREF="#TAG0004">PTP::Thread::Kill</A>   (<I></I>);
+static void <A HREF="#TAG0005">PTP::Thread::Exit</A>   (int <I>status</I>);
+static void <A HREF="#TAG0006">PTP::Thread::Sleep</A>  (int <I>sec</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Thread</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Thread<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Multi-thread support.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Thread::Thread</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Thread (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Thread::Start</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Start (StartFunc <I>start</I>,
+           void * <I>arg</I>);
+
+     <I>start</I> :  Function to execute.
+     <I>arg</I> :  Argument to <I>start</I>.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Execute the <I>start</I> function in a new thread.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on failure.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The thread terminates upon return from <I>start</I>.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  void *PrintThread(void *arg)
+  {
+      printf("%s\n", (const char*) arg);
+      return NULL;
+  }
+  ...
+  PTP::Thread thread;
+  thread.<B>Start</B>(PrintThread, "Running...");
+  thread.Wait();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Thread::Wait</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Wait (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Wait for the thread to terminate.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Thread exit status on success or -1 on failure.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  void *RunThread(void *arg) {...}
+  ...
+  PTP::Thread thread;
+  thread.Start(RunThread, NULL);
+  thread.<B>Wait</B>();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Thread::Kill</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Kill (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Terminate thread and wait for completion.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on failure.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  void *RunThread(void *arg) {...}
+  ...
+  PTP::Thread thread;
+  thread.Start(RunThread, NULL);
+  thread.<B>Kill</B>();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Thread::Exit</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void Exit (int <I>status</I>);
+
+     <I>status</I> :  Exit status.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Terminate the current thread.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  <B>PTP::Thread::Exit</B>(1);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Thread::Sleep</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void Sleep (int <I>sec</I>);
+
+     <I>sec</I> :  Time (in seconds) to sleep.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Sleep for the specified amount of time.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  <B>PTP::Thread::Sleep</B>(30);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

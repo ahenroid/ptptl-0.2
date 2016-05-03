@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Encoding</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Encoding</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/encode.h&gt;
+
+class      <A HREF="#TAG0000">PTP::Encoding</A>               <I></I>;
+
+static int <A HREF="#TAG0001">PTP::Encoding::EncodeBase64</A> (const BYTE * <I>src</I>,
+                                        int <I>size</I>,
+                                        char * <I>dst</I>,
+                                        int <I>bpl</I>);
+static int <A HREF="#TAG0002">PTP::Encoding::DecodeBase64</A> (const char * <I>src</I>,
+                                        int <I>size</I>,
+                                        BYTE * <I>dst</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Encoding</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Encoding<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Base64 encoding.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Encoding::EncodeBase64</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int EncodeBase64 (const BYTE * <I>src</I>,
+                         int <I>size</I>,
+                         char * <I>dst</I>,
+                         int <I>bpl</I>);
+
+     <I>src</I> :  Raw data.
+     <I>size</I> :  Data size or -1 if <I>src</I> is a string.
+     <I>dst</I> :  [<B>OUT</B>] Base64 data ((<I>size</I> * 2 + 4) bytes) or NULL.
+     <I>bpl</I> :  Bytes of raw data per output line (default 36).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Convert raw data to Base64-encoded data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Base64 data size.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  BYTE src[] = {0x01, 0x02, 0x03, 0x04};
+  char dst[sizeof(src) * 2 + 2];
+  <B>PTP::Encoding::EncodeBase64</B>(src, sizeof(src), dst);
+  // dst[] now contains "AAECAw=="
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Encoding::DecodeBase64</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int DecodeBase64 (const char * <I>src</I>,
+                         int <I>size</I>,
+                         BYTE * <I>dst</I>);
+
+     <I>src</I> :  Base64 data.
+     <I>size</I> :  Base64 data size or -1 if <I>src</I> is a string.
+     <I>dst</I> :  [<B>OUT</B>] Raw data ((<I>size</I> / 2) bytes) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Convert Base64-encoded data to raw data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Raw data size.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  char *src = "AAECAw==";
+  BYTE dst[sizeof(src) / 2];
+  <B>PTP::Encoding::DecodeBase64</B>(src, -1, dst);
+  // dst[] now contains {0x01, 0x02, 0x03, 0x04}
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

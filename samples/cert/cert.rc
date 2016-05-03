@@ -1,0 +1,139 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_GENERAL DIALOG DISCARDABLE  0, 0, 195, 127
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "General"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Remove",IDC_REMOVE,138,106,50,14
+    PUSHBUTTON      "Import",IDC_IMPORT,83,106,50,14
+    ICON            IDI_ICON1,IDC_ICON1,7,7,20,20
+    LTEXT           "Name",IDC_NAME,42,14,138,10
+    GROUPBOX        "",IDC_INFO,7,30,181,72
+    CONTROL         "Subject:",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | 
+                    WS_GROUP,22,42,27,8
+    LTEXT           "Subject",IDC_SUBJECT,51,42,120,8
+    LTEXT           "Issuer:",IDC_STATIC,22,58,22,8
+    LTEXT           "Issuer",IDC_ISSUER,51,58,120,8
+    LTEXT           "Expires:",IDC_STATIC,22,74,26,8
+    LTEXT           "Expires",IDC_EXPIRES,51,74,120,8
+    LTEXT           "Status:",IDC_STATIC,22,89,23,8
+    CONTROL         "Status",IDC_STATUS,"Static",SS_LEFTNOWORDWRAP | 
+                    WS_GROUP,51,89,120,8
+END
+
+IDD_CERTS DIALOG DISCARDABLE  0, 0, 195, 127
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Certificates"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Properties",IDC_PROP,133,106,50,14
+    PUSHBUTTON      "Remove",IDC_REMOVE,72,106,50,14
+    PUSHBUTTON      "Sign",IDC_SIGN,11,106,50,14
+    LISTBOX         IDC_CERTS,7,7,181,94,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_GENERAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 188
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 120
+    END
+
+    IDD_CERTS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 188
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 120
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "cert.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

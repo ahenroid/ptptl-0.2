@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Debug</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Debug</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#define _DEBUG 1
+#include &lt;ptp/debug.h&gt;
+
+class       <A HREF="#TAG0000">PTP::Debug</A>        <I></I>;
+
+static void <A HREF="#TAG0001">PTP::Debug::Dump</A>  (const void * <I>data</I>,
+                               int <I>size</I>);
+static void <A HREF="#TAG0002">PTP::Debug::Log</A>   (const char * <I>fmt</I>,
+                               <I>...</I>);
+void        <A HREF="#TAG0003">PTP::Debug::Scan</A>  (<I></I>);
+static void <A HREF="#TAG0004">PTP::Debug::Error</A> (void * <I>ptr</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Debug</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Debug<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Application debug support.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <B>_DEBUG</B> should be defined to enable debug support.
+       Debug replaces the global <B>new</B> and <B>delete</B> functions.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Debug::Dump</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void Dump (const void * <I>data</I>,
+                  int <I>size</I>);
+
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Data size or -1 if data is a string (default).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Print contents of buffer in a user-readable form.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The data is output in both hex and ASCII (for printable characters).
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Debug::Log</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void Log (const char * <I>fmt</I>,
+                 <I>...</I>);
+
+     <I>fmt</I> :  <B>printf</B> style format string.
+     <I>...</I> :  Additional arguments if any.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Write a message to the debug log.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Debug::Scan</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Scan (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Scan the heap for memory errors.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Debug::Error</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static void Error (void * <I>ptr</I>);
+
+     <I>ptr</I> :  Memory location.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ <A HREF="#TAG0004">Error</A> is called when a memory error occurs.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ This function is commonly used as a debugger hook.
+</P>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

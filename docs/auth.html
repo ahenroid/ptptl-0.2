@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Authenticator</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Authenticator</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/auth.h&gt;
+
+class                <A HREF="#TAG0000">PTP::Authenticator</A>                 <I></I>;
+
+const                <A HREF="#TAG0001">PTP::Authenticator::CHALLENGE_SIZE</A> <I></I>;
+const                <A HREF="#TAG0002">PTP::Authenticator::RESPONSE_SIZE</A>  <I></I>;
+
+                     <A HREF="#TAG0003">PTP::Authenticator::Authenticator</A>  (PTP::Store * <I>store</I>);
+                     <A HREF="#TAG0004">PTP::Authenticator::~Authenticator</A> (<I></I>);
+int                  <A HREF="#TAG0005">PTP::Authenticator::Challenge</A>      (const Identity * <I>id</I>,
+                                                         unsigned <I>expire</I>,
+                                                         void * <I>context</I>,
+                                                         BYTE * <I>chal</I>);
+int                  <A HREF="#TAG0006">PTP::Authenticator::Respond</A>        (const BYTE * <I>chal</I>,
+                                                         BYTE * <I>resp</I>) const;
+void *               <A HREF="#TAG0007">PTP::Authenticator::Verify</A>         (const BYTE * <I>resp</I>);
+static unsigned long <A HREF="#TAG0008">PTP::Authenticator::GetTime</A>        (<I></I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Authenticator</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Authenticator<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Authentication support.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Authenticator::CHALLENGE_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const CHALLENGE_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ 
+Challenge data size for <A HREF="#TAG0005">Challenge</A> and <A HREF="#TAG0006">Respond</A>.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Authenticator::RESPONSE_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const RESPONSE_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ 
+Response data size for <A HREF="#TAG0006">Respond</A> and <A HREF="#TAG0007">Verify</A>.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Authenticator::Authenticator</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Authenticator (PTP::Store * <I>store</I>);
+
+     <I>store</I> :  Non-volatile certificate store.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Authenticator::~Authenticator</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Authenticator (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Authenticator::Challenge</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Challenge (const Identity * <I>id</I>,
+               unsigned <I>expire</I>,
+               void * <I>context</I>,
+               BYTE * <I>chal</I>);
+
+     <I>id</I> :  Challenge subject.
+     <I>expire</I> :  Time (in seconds) until challenge expires.
+     <I>context</I> :  Context data to be returned from <A HREF="#TAG0007">Verify</A>.
+     <I>chal</I> :  [<B>OUT</B>] Challenge data (<A HREF="#TAG0001">CHALLENGE_SIZE</A> bytes) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Generate a challenge.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0001">CHALLENGE_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+   Use a non-NULL value for <I>context</I> so that a valid response can
+  be differentiated from an invalid response upon return from
+  <A HREF="#TAG0007">Verify</A>.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Authenticator *auth = ...;
+  PTP::Identity *id = ...;
+  BYTE chal[PTP::Authenticator::CHALLENGE_SIZE];
+  auth->Challenge(id, 60, (void*) 1, chal);
+  // send chal[]
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Authenticator::Respond</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Respond (const BYTE * <I>chal</I>,
+             BYTE * <I>resp</I>) const;
+
+     <I>chal</I> :  Challenge data (<A HREF="#TAG0001">CHALLENGE_SIZE</A> bytes).
+     <I>resp</I> :  [<B>OUT</B>] Response data (<A HREF="#TAG0002">RESPONSE_SIZE</A> bytes) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Generate a response to a challenge.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0002">RESPONSE_SIZE</A> on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Authenticator *auth = ...;
+  BYTE chal[PTP::Authenticator::CHALLENGE_SIZE];
+  // receive chal[]
+  BYTE resp[PTP::Authenticator::RESPONSE_SIZE];
+  auth->Respond(chal, resp);
+  // send resp[]
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Authenticator::Verify</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void * Verify (const BYTE * <I>resp</I>);
+
+     <I>resp</I> :  Response data (<A HREF="#TAG0002">RESPONSE_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Verify a response to a challenge.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Context data from <A HREF="#TAG0005">Challenge</A> or NULL for an invalid response.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Authenticator *auth = ...;
+  PTP::Identity *id = ...;
+  BYTE chal[PTP::Authenticator::CHALLENGE_SIZE];
+  auth->Challenge(id, 60, (void*) 1, chal);
+  // send chal[]
+  BYTE resp[PTP::Authenticator::RESPONSE_SIZE];
+  // receive resp[]
+  int ok = ((int) auth->Verify(resp) == 1);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Authenticator::GetTime</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static unsigned long GetTime (<I></I>);
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Current time (in seconds).
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The base time (whether the Epoch or simply boot time) is arbitrary.
+</P>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

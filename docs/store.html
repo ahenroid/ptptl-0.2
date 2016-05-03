@@ -1,0 +1,1010 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Store</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Store</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/store.h&gt;
+
+class                     <A HREF="#TAG0000">PTP::Store</A>                 <I></I>;
+
+const                     <A HREF="#TAG0001">PTP::Store::ALL</A>            <I></I>;
+const                     <A HREF="#TAG0002">PTP::Store::IDENTITY</A>       <I></I>;
+const                     <A HREF="#TAG0003">PTP::Store::KEY</A>            <I></I>;
+const                     <A HREF="#TAG0004">PTP::Store::SECRET</A>         <I></I>;
+
+                          <A HREF="#TAG0005">PTP::Store::Store</A>          (<I></I>);
+                          <A HREF="#TAG0006">PTP::Store::Store</A>          (const char * <I>path</I>,
+                                                      const char * <I>passwd</I>,
+                                                      const char * <I>macpasswd</I>);
+                          <A HREF="#TAG0007">PTP::Store::Store</A>          (HKEY <I>key</I>,
+                                                      const char * <I>name</I>,
+                                                      const char * <I>passwd</I>,
+                                                      const char * <I>macpasswd</I>);
+                          <A HREF="#TAG0008">PTP::Store::~Store</A>         (<I></I>);
+int                       <A HREF="#TAG0009">PTP::Store::Load</A>           (<I></I>);
+int                       <A HREF="#TAG0010">PTP::Store::Save</A>           (<I></I>);
+void                      <A HREF="#TAG0011">PTP::Store::Reset</A>          (int <I>remove</I>);
+int                       <A HREF="#TAG0012">PTP::Store::Insert</A>         (const PTP::Identity * <I>ident</I>,
+                                                      int <I>exportkey</I>,
+                                                      const char * <I>friendly</I>,
+                                                      const BYTE * <I>id</I>,
+                                                      int <I>idsize</I>);
+int                       <A HREF="#TAG0013">PTP::Store::Remove</A>         (const PTP::Identity * <I>ident</I>);
+int                       <A HREF="#TAG0014">PTP::Store::Insert</A>         (const PTP::Key * <I>key</I>,
+                                                      const BYTE * <I>id</I>,
+                                                      int <I>idsize</I>);
+int                       <A HREF="#TAG0015">PTP::Store::Remove</A>         (const PTP::Key * <I>key</I>);
+int                       <A HREF="#TAG0016">PTP::Store::Insert</A>         (const BYTE * <I>secret</I>,
+                                                      int <I>size</I>,
+                                                      const char * <I>friendly</I>,
+                                                      const BYTE * <I>id</I>,
+                                                      int <I>idsize</I>);
+int                       <A HREF="#TAG0017">PTP::Store::Remove</A>         (const BYTE * <I>secret</I>,
+                                                      int <I>size</I>);
+const PTP::Store::Entry * <A HREF="#TAG0018">PTP::Store::Find</A>           (Type <I>type</I>,
+                                                      const char * <I>friendly</I>,
+                                                      const BYTE * <I>id</I>,
+                                                      int <I>idsize</I>,
+                                                      const Entry * <I>from</I>);
+PTP::Identity *           <A HREF="#TAG0019">PTP::Store::Find</A>           (const char * <I>name</I>,
+                                                      int <I>haskey</I>,
+                                                      const BYTE * <I>modulus</I>,
+                                                      PTP::Identity * <I>from</I>);
+static PTP::Identity *    <A HREF="#TAG0020">PTP::Store::Import</A>         (BYTE * <I>data</I>,
+                                                      int <I>size</I>,
+                                                      const char * <I>passwd</I>,
+                                                      const char * <I>macpasswd</I>);
+static int                <A HREF="#TAG0021">PTP::Store::Export</A>         (const PTP::Identity * <I>ident</I>,
+                                                      int <I>exportkey</I>,
+                                                      const char * <I>passwd</I>,
+                                                      const char * <I>macpasswd</I>,
+                                                      BYTE * <I>data</I>);
+static PTP::Identity *    <A HREF="#TAG0022">PTP::Store::ImportPEM</A>      (BYTE * <I>data</I>,
+                                                      int <I>size</I>);
+static int                <A HREF="#TAG0023">PTP::Store::ExportPEM</A>      (const PTP::Identity * <I>ident</I>,
+                                                      BYTE * <I>data</I>);
+static int                <A HREF="#TAG0024">PTP::Store::ImportEnvelope</A> (const BYTE * <I>envelope</I>,
+                                                      int <I>size</I>,
+                                                      BYTE * <I>data</I>,
+                                                      const PTP::Identity * <I>recipient</I>,
+                                                      const PTP::Identity * <I>signer</I>);
+static int                <A HREF="#TAG0025">PTP::Store::ExportEnvelope</A> (const BYTE * <I>data</I>,
+                                                      int <I>size</I>,
+                                                      BYTE * <I>envelope</I>,
+                                                      const PTP::Identity * <I>recipient</I>,
+                                                      const PTP::Identity * <I>signer</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Store</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Store<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Secure storage (PKCS#12, PKCS#7, and PEM support).</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Store::ALL</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const ALL<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Any archive entry.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Store::IDENTITY</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const IDENTITY<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ A certificate.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Store::KEY</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const KEY<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ A symmetric key.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Store::SECRET</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const SECRET<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Secret data.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Store::Store</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Store (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create an in-memory store.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Store::Store</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Store (const char * <I>path</I>,
+       const char * <I>passwd</I>,
+       const char * <I>macpasswd</I>);
+
+     <I>path</I> :  File pathname.
+     <I>passwd</I> :  Archive password.
+     <I>macpasswd</I> :  MAC password.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a file store.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  char *passwd = ...;
+  PTP::Store store("/home/johndoe/.ptl/certs", passwd, passwd);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Store::Store</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Store (HKEY <I>key</I>,
+       const char * <I>name</I>,
+       const char * <I>passwd</I>,
+       const char * <I>macpasswd</I>);
+
+     <I>key</I> :  Base registry key.
+     <I>name</I> :  Key name.
+     <I>passwd</I> :  Archive password.
+     <I>macpasswd</I> :  MAC password.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a registry store.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ This method is only available on the Win32 platform.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  char *passwd = ...;
+  PTP::Store store(HKEY_CURRENT_USER,
+                   "Software\\PTL\\Certs",
+                   passwd,
+                   passwd);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Store::~Store</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Store (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The destructor does not save the archive to the storage
+       medium. <A HREF="#TAG0010">Save</A> must be called before destruction to save
+       the contents of the archive.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::Store::Load</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Load (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Load archive from the storage medium.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error (the archive failed to open or
+         the archive is invalid).
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::Store::Save</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Save (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Save archive to the storage medium.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::Store::Reset</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Reset (int <I>remove</I>);
+
+     <I>remove</I> :  1 to remove the archive from its storage medium.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Clear entries and, optionally, remove the archive.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::Store::Insert</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Insert (const PTP::Identity * <I>ident</I>,
+            int <I>exportkey</I>,
+            const char * <I>friendly</I>,
+            const BYTE * <I>id</I>,
+            int <I>idsize</I>);
+
+     <I>ident</I> :  Certificate.
+     <I>exportkey</I> :  1 to export the private key with the certificate.
+     <I>friendly</I> :  Friendly name.
+     <I>id</I> :  Identifier value.
+     <I>idsize</I> :  Identifier size or -1 if <I>id</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Add a certificate to the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  store.<B>Insert</B>(new PTP::Identity("John Doe"),
+               0,
+               "John Doe",
+               NULL,
+               0);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::Store::Remove</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Remove (const PTP::Identity * <I>ident</I>);
+
+     <I>ident</I> :  Certificate.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove a certificate from the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  ...
+  PTP::Identity *id = store.Find("John Doe", 0, NULL, NULL);
+  store.<B>Remove</B>(id);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0014"></A>PTP::Store::Insert</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Insert (const PTP::Key * <I>key</I>,
+            const BYTE * <I>id</I>,
+            int <I>idsize</I>);
+
+     <I>key</I> :  Key.
+     <I>id</I> :  Identifier value.
+     <I>idsize</I> :  Identifier size or -1 if <I>id</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Add a key to the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  store.<B>Insert</B>(new PTP::Key, (const BYTE*) "Joe's key", -1);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0015"></A>PTP::Store::Remove</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Remove (const PTP::Key * <I>key</I>);
+
+     <I>key</I> :  Key.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove a key from the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Key *key = ...;
+  PTP::Store store;
+  store.Insert(key, NULL, 0);
+  store.<B>Remove</B>(key);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0016"></A>PTP::Store::Insert</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Insert (const BYTE * <I>secret</I>,
+            int <I>size</I>,
+            const char * <I>friendly</I>,
+            const BYTE * <I>id</I>,
+            int <I>idsize</I>);
+
+     <I>secret</I> :  Secret data.
+     <I>size</I> :  Data size or -1 if <I>secret</I> is a string.
+     <I>friendly</I> :  Friendly name.
+     <I>id</I> :  Identifier value.
+     <I>idsize</I> :  Identifier size or -1 if <I>id</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Add secret data to the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  store.<B>Insert</B>((const BYTE*) "This is my secret...",
+               -1,
+               "Secret",
+               NULL,
+               0);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0017"></A>PTP::Store::Remove</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Remove (const BYTE * <I>secret</I>,
+            int <I>size</I>);
+
+     <I>secret</I> :  Secret data.
+     <I>size</I> :  Data size or -1 if <I>secret</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove secret data from the archive.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  store.Insert((const BYTE*) "Secret", -1, NULL, NULL, 0);
+  store.<B>Remove</B>((const BYTE*) "Secret", -1);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0018"></A>PTP::Store::Find</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const PTP::Store::Entry * Find (Type <I>type</I>,
+                                const char * <I>friendly</I>,
+                                const BYTE * <I>id</I>,
+                                int <I>idsize</I>,
+                                const Entry * <I>from</I>);
+
+     <I>type</I> :  Entry type (<A HREF="#TAG0002">IDENTITY</A>, <A HREF="#TAG0003">KEY</A>, <A HREF="#TAG0004">SECRET</A>, or <A HREF="#TAG0001">ALL</A>).
+     <I>friendly</I> :  Friendly name or NULL to match any.
+     <I>id</I> :  Identifier value or NULL to match any.
+     <I>idsize</I> :  Identifier size or 0.
+     <I>from</I> :  Previous find result or NULL to begin at the start.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Locate an archive entry.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Matching entry or NULL if none found.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  ...
+  PTP::Store::Entry *entry = NULL;
+  for (;;)
+  {
+      entry = store.<B>Find</B>(PTP::Store::IDENTITY,
+                         "John Doe",
+                         NULL,
+                         0,
+                         entry);
+      if (!entry)
+          break;
+      printf("%s\n", entry->ident.ident->GetName());
+  }
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0019"></A>PTP::Store::Find</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+PTP::Identity * Find (const char * <I>name</I>,
+                      int <I>haskey</I>,
+                      const BYTE * <I>modulus</I>,
+                      PTP::Identity * <I>from</I>);
+
+     <I>name</I> :  Certificate name or NULL to match any.
+     <I>haskey</I> :  1 to only match certificates with a private key.
+     <I>modulus</I> :  Public key modulus or NULL to match any.
+     <I>from</I> :  Previous find result or NULL to begin at the start.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Locate a certificate.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Matching certificate or NULL if none found.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Store store;
+  ...
+  PTP::Identity *id = NULL;
+  for (;;)
+  {
+      id = store.<B>Find</B>(NULL, 1, NULL, id);
+      if (!id)
+          break;
+      printf("%s\n", id->GetName());
+  }
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0020"></A>PTP::Store::Import</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static PTP::Identity * Import (BYTE * <I>data</I>,
+                               int <I>size</I>,
+                               const char * <I>passwd</I>,
+                               const char * <I>macpasswd</I>);
+
+     <I>data</I> :  Certificate data (PKCS#12).
+     <I>size</I> :  Data size.
+     <I>passwd</I> :  Archive password or NULL.
+     <I>macpasswd</I> :  MAC password or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Import a certificate in PKCS#12 format.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Certificate on success or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0020">Import</A> imports the first certificate and private key found
+       found in the PKCS#12 data.  It does not process
+       nested (ie. SafeContents) bags.  The certificate should be
+       in a top-level CertBag and a private key can be in either a
+       PKCS#8 ShroudedKeyBag (if <I>passwd</I> is non-NULL) or in a
+       KeyBag (if <I>passwd</I> is NULL).
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE data[...];
+  int size = PTP::Store::Export(id, 1, passwd, passwd, data);
+  PTP::Identity *copy = <B>PTP::Store::Import</B>(data, size, passwd, passwd);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0021"></A>PTP::Store::Export</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int Export (const PTP::Identity * <I>ident</I>,
+                   int <I>exportkey</I>,
+                   const char * <I>passwd</I>,
+                   const char * <I>macpasswd</I>,
+                   BYTE * <I>data</I>);
+
+     <I>ident</I> :  Certificate.
+     <I>exportkey</I> :  1 to also export the private key.
+     <I>passwd</I> :  Archive password or NULL.
+     <I>macpasswd</I> :  MAC password or NULL.
+.
+     <I>data</I> :  [<B>OUT</B>] Certificate data (PKCS#12) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Export certificate data in PKCS#12 format.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Data size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The certificate is exported as a PKCS#12 CertBag and the
+       key, if it is exported, is exported as either a PKCS#8
+       ShroudedKeyBag (if <I>passwd</I> is non-NULL) or as a unshrouded
+       KeyBag (if <I>passwd</I> is NULL).  All of the PKCS#12 data is
+       enclosed with a message authentication code based on
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  int size = <B>PTP::Store::Export</B>(id, 1, passwd, passwd, NULL);
+  if (size <= 0)
+      return -1;
+  BYTE *data = new BYTE[size];
+  <B>PTP::Store::Export</B>(id, 1, passwd, passwd, data);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0022"></A>PTP::Store::ImportPEM</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static PTP::Identity * ImportPEM (BYTE * <I>data</I>,
+                                  int <I>size</I>);
+
+     <I>data</I> :  Certificate data (PEM).
+     <I>size</I> :  Data size.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Import a certificate in PEM format.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Certificate on success or NULL on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  BYTE data[...];
+  int size = PTP::Store::ExportPEM(id, data);
+  PTP::Identity *copy = <B>PTP::Store::ImportPEM</B>(data, size);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0023"></A>PTP::Store::ExportPEM</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int ExportPEM (const PTP::Identity * <I>ident</I>,
+                      BYTE * <I>data</I>);
+
+     <I>ident</I> :  Certificate.
+     <I>data</I> :  [<B>OUT</B>] Certificate data (PEM) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Export certificate data in PEM format.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Data size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  int size = <B>PTP::Store::ExportPEM</B>(id, NULL);
+  if (size <= 0)
+      return -1;
+  BYTE *data = new BYTE[size];
+  <B>PTP::Store::ExportPEM</B>(id, data);
+  ...
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0024"></A>PTP::Store::ImportEnvelope</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int ImportEnvelope (const BYTE * <I>envelope</I>,
+                           int <I>size</I>,
+                           BYTE * <I>data</I>,
+                           const PTP::Identity * <I>recipient</I>,
+                           const PTP::Identity * <I>signer</I>);
+
+     <I>envelope</I> :  Envelope (PKCS#7).
+     <I>size</I> :  Envelope size.
+     <I>data</I> :  [<B>OUT</B>] Enveloped data or NULL.
+     <I>recipient</I> :  Recipient identity.
+     <I>signer</I> :  Signer identity or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Import PKCS#7 enveloped data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Enveloped data size or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  char *secret = "This is a secret...";
+  BYTE envelope[...];
+  BYTE data[..];
+  int size
+      = PTP::Store::ExportEnvelope((BYTE*) secret, -1, envelope, id, NULL);
+  int datasize
+      = <B>PTP::Store::ImportEnvelope</B>(envelope, size, data, id, NULL);
+  if (datasize <= 0)
+      return -1;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0025"></A>PTP::Store::ExportEnvelope</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int ExportEnvelope (const BYTE * <I>data</I>,
+                           int <I>size</I>,
+                           BYTE * <I>envelope</I>,
+                           const PTP::Identity * <I>recipient</I>,
+                           const PTP::Identity * <I>signer</I>);
+
+     <I>data</I> :  Enveloped data.
+     <I>size</I> :  Data size.
+     <I>envelope</I> :  [<B>OUT</B>] Envelope (PKCS#7) or NULL.
+     <I>recipient</I> :  Recipient identity.
+     <I>signer</I> :  Signer identity or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Export PKCS#7 enveloped data.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Envelope size or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Identity *id = ...;
+  char *secret = "This is a secret.";
+  int size
+      = <B>PTP::Store::ExportEnvelope</B>((BYTE*) secret, -1, NULL, id, NULL);
+  if (size <= 0)
+      return -1;
+  BYTE *envelope = new BYTE[size];
+  <B>PTP::Store::ExportEnvelope</B>((BYTE*) secret, -1, envelope, id, NULL);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

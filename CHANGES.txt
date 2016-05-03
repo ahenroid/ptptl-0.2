@@ -1,0 +1,29 @@
+The Peer-to-Peer Trusted Library Changes
+========================================
+
+Release 0.2
+===========
+* Added support for PKCS#7 digital envelopes (see
+  PTP::Store::Import/ExportEnvelope())
+* Added cleaner HTTP interface to PTP::Net::Connection
+  (see Connection::Read/WriteHttp())
+* Changed proxy support in PTP::Net::Connection.  Now,
+  if a proxy is present, a direct PtP connect is tried
+  before a connection through the proxy (added timeout
+  support throughout PTP::Net::Connection)
+* Added network endian handling to PTP::Net
+  (see PTP::Net::Get/Set32 and PTP::Net::Get/Set16)
+* Updated build system (build OpenSSL, build the PtPTL
+  as a DLL, separate Win32/Linux configuration files)
+* Added Base64 encoding support (see PTP::Encoding)
+* Moved random number generator to its own class
+  (see PTP::Random)
+* Retooled "cert" sample and added documentation.
+* Added "sfs" sample and removed "gnut" sample.
+* Added better pattern matching to PTP::Collection::Find
+  (matches on simple wildcards '*' or '?')
+* Several one line bug fixes
+
+Release 0.1
+===========
+* Initial release

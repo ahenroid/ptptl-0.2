@@ -1,0 +1,584 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Key</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Key</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/key.h&gt;
+
+class       <A HREF="#TAG0000">PTP::Key</A>           <I></I>;
+
+const       <A HREF="#TAG0001">PTP::Key::KEY_SIZE</A> <I></I>;
+
+typedef int (*<A HREF="#TAG0002">PTP::Key::Read</A>)  (BYTE * <I>data</I>,
+                                int <I>size</I>,
+                                void * <I>context</I>);
+typedef int (*<A HREF="#TAG0003">PTP::Key::Write</A>) (const BYTE * <I>data</I>,
+                                int <I>size</I>,
+                                void * <I>context</I>);
+
+            <A HREF="#TAG0004">PTP::Key::Key</A>      (<I></I>);
+            <A HREF="#TAG0005">PTP::Key::Key</A>      (const BYTE * <I>data</I>);
+            <A HREF="#TAG0006">PTP::Key::Key</A>      (const char * <I>passwd</I>,
+                                const BYTE * <I>salt</I>,
+                                int <I>saltsize</I>);
+            <A HREF="#TAG0007">PTP::Key::~Key</A>     (<I></I>);
+int         <A HREF="#TAG0008">PTP::Key::Encrypt</A>  (const BYTE * <I>plain</I>,
+                                int <I>size</I>,
+                                BYTE * <I>cipher</I>,
+                                int <I>iv</I>,
+                                int <I>digest</I>) const;
+int         <A HREF="#TAG0009">PTP::Key::Decrypt</A>  (const BYTE * <I>cipher</I>,
+                                int <I>size</I>,
+                                BYTE * <I>plain</I>,
+                                int <I>iv</I>,
+                                int <I>digest</I>) const;
+int         <A HREF="#TAG0010">PTP::Key::Encrypt</A>  (<A HREF="#TAG0002">Read</A> <I>read</I>,
+                                <A HREF="#TAG0003">Write</A> <I>write</I>,
+                                void * <I>context</I>,
+                                int <I>iv</I>,
+                                int <I>digest</I>,
+                                int <I>readsize</I>) const;
+int         <A HREF="#TAG0011">PTP::Key::Decrypt</A>  (<A HREF="#TAG0002">Read</A> <I>read</I>,
+                                <A HREF="#TAG0003">Write</A> <I>write</I>,
+                                void * <I>context</I>,
+                                int <I>iv</I>,
+                                int <I>digest</I>,
+                                int <I>readsize</I>) const;
+static int  <A HREF="#TAG0012">PTP::Key::Transfer</A> (<A HREF="#TAG0002">Read</A> <I>read</I>,
+                                <A HREF="#TAG0003">Write</A> <I>write</I>,
+                                void * <I>context</I>,
+                                int <I>readsize</I>);
+int         <A HREF="#TAG0013">PTP::Key::Export</A>   (BYTE * <I>data</I>) const;
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Key</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Key<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Symmetric encryption support.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The symmetric cipher and key sizes used depend on the
+       value of <B>PTP_SESSION_CIPHER</B> and <B>PTP_SESSION_KEY_SIZE</B>
+       in ``ptp.h''.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Key::KEY_SIZE</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const KEY_SIZE<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Key data size.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Key::Read</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+typedef int (*Read) (BYTE * <I>data</I>,
+                     int <I>size</I>,
+                     void * <I>context</I>);
+
+     <I>data</I> :  [<B>OUT</B>] Data buffer.
+     <I>size</I> :  Maximum read size.
+     <I>context</I> :  Function context data.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Read function.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Read size or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Key::Write</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+typedef int (*Write) (const BYTE * <I>data</I>,
+                      int <I>size</I>,
+                      void * <I>context</I>);
+
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Data size.
+     <I>context</I> :  Function context data.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Write function.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Write size or -1 on error.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Key::Key</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Key (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a new randomly-generated key.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Key::Key</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Key (const BYTE * <I>data</I>);
+
+     <I>data</I> :  Key data (<A HREF="#TAG0001">KEY_SIZE</A> bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a key from data.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  BYTE data[PTP::Key::KEY_SIZE];
+  PTP::Random::Fill(data, sizeof(data));
+  PTP::Key key(data);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Key::Key</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Key (const char * <I>passwd</I>,
+     const BYTE * <I>salt</I>,
+     int <I>saltsize</I>);
+
+     <I>passwd</I> :  Private password string.
+     <I>salt</I> :  Well-known salt data.
+     <I>saltsize</I> :  Salt data size or -1 if <I>salt</I> is a string.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Create a key from a password using the
+               PKCS#5 PBKDF2 algorithm.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Longer values of <I>passwd</I> and <I>salt</I>, obviously, result in
+       more secure keys.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  BYTE salt[256];
+  PTP::Random::Fill(salt, sizeof(salt));
+  PTP::Key key("SecretPassword", salt, sizeof(salt));
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Key::~Key</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Key (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Key::Encrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Encrypt (const BYTE * <I>plain</I>,
+             int <I>size</I>,
+             BYTE * <I>cipher</I>,
+             int <I>iv</I>,
+             int <I>digest</I>) const;
+
+     <I>plain</I> :  Plaintext data.
+     <I>size</I> :  Plaintext size.
+     <I>cipher</I> :  [<B>OUT</B>] Ciphertext data or NULL.
+     <I>iv</I> :  1 to prepend a randomly-generate IV (default).
+     <I>digest</I> :  1 to append a message digest (default).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Encrypt data from <I>plain</I> into <I>cipher</I>.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Ciphertext size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  BYTE plain[] = ...;
+  int size = <B>Encrypt</B>(plain, sizeof(plain), NULL);
+  BYTE *cipher = new BYTE[size];
+  <B>Encrypt</B>(plain, sizeof(plain), cipher);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::Key::Decrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Decrypt (const BYTE * <I>cipher</I>,
+             int <I>size</I>,
+             BYTE * <I>plain</I>,
+             int <I>iv</I>,
+             int <I>digest</I>) const;
+
+     <I>cipher</I> :  Ciphertext data.
+     <I>size</I> :  Ciphertext size.
+     <I>plain</I> :  [<B>OUT</B>] Plaintext data or NULL.
+     <I>iv</I> :  1 to fetch prepended IV (default).
+     <I>digest</I> :  1 to verify appended message digest (default).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Decrypt data from <I>cipher</I> into <I>plain</I>.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Plaintext size on success or -1 on error or invalid
+         message digest.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  BYTE cipher[] = ...;
+  int size = <B>Decrypt</B>(cipher, sizeof(cipher), NULL);
+  BYTE *plain = new BYTE[size];
+  size = <B>Decrypt</B>(cipher, sizeof(cipher), plain);
+  if (size <= 0)
+      return -1;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::Key::Encrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Encrypt (<A HREF="#TAG0002">Read</A> <I>read</I>,
+             <A HREF="#TAG0003">Write</A> <I>write</I>,
+             void * <I>context</I>,
+             int <I>iv</I>,
+             int <I>digest</I>,
+             int <I>readsize</I>) const;
+
+     <I>read</I> :  Data read function.
+     <I>write</I> :  Data write function or NULL.
+     <I>context</I> :  Context for <I>read</I> and <I>write</I>.
+     <I>iv</I> :  
+     <I>digest</I> :  
+     <I>readsize</I> :  Size of read buffer (default: 1024 bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Encrypt data from <I>read</I> and send to <I>write</I>.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Total ciphertext size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0008">Encrypt</A> prepends a random IV and appends a message digest
+       so the ciphertext will necessarily be larger than the plaintext.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  // encrypt from stdin to stdout
+  int Read(BYTE *buffer, int size, void *context)
+      {return fread(buffer, 1, size, stdin);}
+  int Write(const BYTE *buffer, int size, void *context)
+      {return fwrite(buffer, 1, size, stdout);}
+  ...
+  <B>Encrypt</B>(Read, Write, NULL, 2048, 1, 1);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::Key::Decrypt</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Decrypt (<A HREF="#TAG0002">Read</A> <I>read</I>,
+             <A HREF="#TAG0003">Write</A> <I>write</I>,
+             void * <I>context</I>,
+             int <I>iv</I>,
+             int <I>digest</I>,
+             int <I>readsize</I>) const;
+
+     <I>read</I> :  Data read function.
+     <I>write</I> :  Data write function or NULL.
+     <I>context</I> :  Context for <I>read</I> and <I>write</I>.
+     <I>iv</I> :  
+     <I>digest</I> :  
+     <I>readsize</I> :  Size of read buffer (default: 1024 bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Decrypt data from <I>read</I> and send to <I>write</I>.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Total plaintext size on success or -1 on error
+         or invalid message digest.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0009">Decrypt</A> fetches the prepended IV from the ciphertext and
+       verifies that the appended message digest is valid.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  // decrypt from stdin to stdout
+  int Read(BYTE *buffer, int size, void *context)
+      {return fread(buffer, 1, size, stdin);}
+  int Write(const BYTE *buffer, int size, void *context)
+      {return fwrite(buffer, 1, size, stdout);}
+  ...
+  int size = <B>Decrypt</B>(Read, Write, NULL, 2048, 1, 1);
+  if (size <= 0)
+      return -1;
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::Key::Transfer</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+static int Transfer (<A HREF="#TAG0002">Read</A> <I>read</I>,
+                     <A HREF="#TAG0003">Write</A> <I>write</I>,
+                     void * <I>context</I>,
+                     int <I>readsize</I>);
+
+     <I>read</I> :  Data read function.
+     <I>write</I> :  Data write function or NULL.
+     <I>context</I> :  Context for <I>read</I> and <I>write</I>.
+     <I>readsize</I> :  Size of read buffer (default: 1024 bytes).
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Transfer data from <I>read</I> to <I>write</I>.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Total transfer size on success or -1 on error.
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ <A HREF="#TAG0012">Transfer</A> performs no encryption or decryption on the data stream.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  // transfer data from stdin to stdout
+  int Read(BYTE *buffer, int size, void *context)
+      {return fread(buffer, 1, size, stdin);}
+  int Write(const BYTE *buffer, int size, void *context)
+      {return fwrite(buffer, 1, size, stdout);}
+  ...
+  <B>PTP::Key::Transfer</B>(Read, Write, NULL, 2048);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::Key::Export</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int Export (BYTE * <I>data</I>) const;
+
+     <I>data</I> :  [<B>OUT</B>] Key data (<A HREF="#TAG0001">KEY_SIZE</A> bytes) or NULL.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Export key.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Data size (always <A HREF="#TAG0001">KEY_SIZE</A>).
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Key *key = ...;
+  BYTE data[PTP::Key::KEY_SIZE];
+  key->Export(data);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

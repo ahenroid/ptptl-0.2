@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Mutex</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Mutex</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/mutex.h&gt;
+
+class <A HREF="#TAG0000">PTP::Mutex</A>          <I></I>;
+
+      <A HREF="#TAG0001">PTP::Mutex::Mutex</A>   (<I></I>);
+      <A HREF="#TAG0002">PTP::Mutex::~Mutex</A>  (<I></I>);
+void  <A HREF="#TAG0003">PTP::Mutex::Lock</A>    (<I></I>);
+int   <A HREF="#TAG0004">PTP::Mutex::TryLock</A> (<I></I>);
+void  <A HREF="#TAG0005">PTP::Mutex::Unlock</A>  (<I></I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Mutex</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Mutex<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Multi-threaded locking.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Mutex::Mutex</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Mutex (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Mutex::~Mutex</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Mutex (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Mutex::Lock</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Lock (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Acquire mutex (blocking).</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Once a mutex is acquired by a thread, it can be acquired again
+       by the same thread without blocking (recursively).  <A HREF="#TAG0005">Unlock</A> must
+       be called an equal number of times as <A HREF="#TAG0003">Lock</A> or <A HREF="#TAG0004">TryLock</A>.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Mutex::TryLock</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int TryLock (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Attempt to acquire mutex (non-blocking).</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 0 on success or -1 if acquisition failed (lock is currently held).
+</P>
+</TD></TR></TABLE>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Once a mutex is acquired by a thread, it can be acquired again
+       by the same thread without blocking (recursively).  <A HREF="#TAG0005">Unlock</A> must
+       be called an equal number of times as <A HREF="#TAG0003">Lock</A> or <A HREF="#TAG0004">TryLock</A>.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Mutex mutex;
+  ...
+  int acquired = (mutex.TryLock() == 0);
+  printf("Mutex: %s\n", acquired ? "Acquired":"Not acquired");
+  if (acquired)
+      mutex.Unlock();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Mutex::Unlock</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Unlock (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Release mutex.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Once a mutex is acquired by a thread, it can be acquired again
+       by the same thread without blocking (recursively).  <A HREF="#TAG0005">Unlock</A> must
+       be called an equal number of times as <A HREF="#TAG0003">Lock</A> or <A HREF="#TAG0004">TryLock</A>.
+</P>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

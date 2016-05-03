@@ -1,0 +1,471 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::Collection</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::Collection</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/collect.h&gt;
+
+class                    <A HREF="#TAG0000">PTP::Collection</A>                    <I></I>;
+
+void                     <A HREF="#TAG0019">PTP::Collection::Rescan</A>            (<I></I>);
+const int                <A HREF="#TAG0010">PTP::Collection::GetSize</A>           () const;
+                         <A HREF="#TAG0011">PTP::Collection::Collection</A>        (<I></I>);
+                         <A HREF="#TAG0012">PTP::Collection::~Collection</A>       (<I></I>);
+void                     <A HREF="#TAG0013">PTP::Collection::Add</A>               (<A HREF="#TAG0001">Entry</A> * <I>entry</I>);
+void                     <A HREF="#TAG0014">PTP::Collection::Destroy</A>           (<A HREF="#TAG0001">Entry</A> * <I>entry</I>);
+<A HREF="#TAG0001">PTP::Collection::Entry</A> * <A HREF="#TAG0015">PTP::Collection::Find</A>              (const char * <I>pat</I>,
+                                                             <A HREF="#TAG0001">Entry</A> * <I>from</I>);
+<A HREF="#TAG0001">PTP::Collection::Entry</A> * <A HREF="#TAG0016">PTP::Collection::Find</A>              (unsigned long <I>id</I>);
+void                     <A HREF="#TAG0017">PTP::Collection::Add</A>               (const char * <I>path</I>,
+                                                             const char * <I>ext</I>,
+                                                             void * <I>context</I>);
+void                     <A HREF="#TAG0018">PTP::Collection::Remove</A>            (const char * <I>path</I>);
+
+class                    <A HREF="#TAG0001">PTP::Collection::Entry</A>             <I></I>;
+
+                         <A HREF="#TAG0003">PTP::Collection::Entry::Entry</A>      (const char * <I>name</I>,
+                                                             const BYTE * <I>data</I>,
+                                                             unsigned long <I>size</I>,
+                                                             void * <I>context</I>);
+const char *             <A HREF="#TAG0004">PTP::Collection::Entry::GetName</A>    () const;
+unsigned long            <A HREF="#TAG0005">PTP::Collection::Entry::GetId</A>      () const;
+const char *             <A HREF="#TAG0006">PTP::Collection::Entry::GetPath</A>    () const;
+unsigned long            <A HREF="#TAG0007">PTP::Collection::Entry::GetSize</A>    () const;
+void *                   <A HREF="#TAG0009">PTP::Collection::Entry::GetContext</A> () const;
+const BYTE *             <A HREF="#TAG0008">PTP::Collection::Entry::GetData</A>    () const;
+                         <A HREF="#TAG0002">PTP::Collection::Entry::Entry</A>      (const char * <I>path</I>,
+                                                             unsigned long <I>size</I>,
+                                                             void * <I>context</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::Collection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Collection<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Simple file and data collection.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0019"></A>PTP::Collection::Rescan</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Rescan (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Rescan all subdirectories for matching files.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::Collection::GetSize</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const int GetSize () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Number of entries in the collection.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::Collection::Collection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Collection (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::Collection::~Collection</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~Collection (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::Collection::Add</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Add (<A HREF="#TAG0001">Entry</A> * <I>entry</I>);
+
+     <I>entry</I> :  New entry.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Add an entry to the collection.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0014"></A>PTP::Collection::Destroy</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Destroy (<A HREF="#TAG0001">Entry</A> * <I>entry</I>);
+
+     <I>entry</I> :  Existing collection entry.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove and destroy an entry from the collection.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0015"></A>PTP::Collection::Find</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::Collection::Entry</A> * Find (const char * <I>pat</I>,
+                               <A HREF="#TAG0001">Entry</A> * <I>from</I>);
+
+     <I>pat</I> :  Pattern to match or NULL to match all.
+     <I>from</I> :  Previous find result or NULL to begin at the start.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Search for an entry with a matching name.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Next matching entry or NULL if none.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Collection collect;
+  ...
+  PTP::Collection::Entry *x = NULL;
+  while (x = collect.Find("*.jpg", x))
+  {
+      ...
+  }
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0016"></A>PTP::Collection::Find</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::Collection::Entry</A> * Find (unsigned long <I>id</I>);
+
+     <I>id</I> :  Entry number to match.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Search for an entry with a matching entry number.</TD></TR></TABLE></BR>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Matching entry or NULL if none.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0017"></A>PTP::Collection::Add</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Add (const char * <I>path</I>,
+          const char * <I>ext</I>,
+          void * <I>context</I>);
+
+     <I>path</I> :  Top-level directory.
+     <I>ext</I> :  List of extensions (separated by ';') or NULL to match all.
+     <I>context</I> :  Context data to be returned from
+          <A HREF="#TAG0009">PTP::Collection::Entry::GetContext</A>
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Add all matching files in all subdirectories.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The user must call <A HREF="#TAG0019">Rescan</A> before the new files are actually added.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  PTP::Collection collect;
+  collect.Add("/tmp/files", ".gz;.tar", NULL);
+  collect.Rescan();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0018"></A>PTP::Collection::Remove</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Remove (const char * <I>path</I>);
+
+     <I>path</I> :  Top-level directory.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove all entries for files in subdirectories.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::Collection::Entry</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::Collection::Entry<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ File or data entry.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::Collection::Entry::Entry</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Entry (const char * <I>name</I>,
+       const BYTE * <I>data</I>,
+       unsigned long <I>size</I>,
+       void * <I>context</I>);
+
+     <I>name</I> :  Data name.
+     <I>data</I> :  Data buffer.
+     <I>size</I> :  Data size.
+     <I>context</I> :  Context data to be returned from <A HREF="#TAG0009">GetContext</A>.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Data entry constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::Collection::Entry::GetName</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const char * GetName () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Data name or base of file pathname.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::Collection::Entry::GetId</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+unsigned long GetId () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Unique entry number.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::Collection::Entry::GetPath</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const char * GetPath () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ File pathname or NULL for a data entry.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::Collection::Entry::GetSize</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+unsigned long GetSize () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ File or data size.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::Collection::Entry::GetContext</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void * GetContext () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Context data previously passed to <A HREF="#TAG0013">PTP::Collection::Add</A>.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::Collection::Entry::GetData</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+const BYTE * GetData () const;
+
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Data buffer or NULL for a file entry.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP::Collection::Entry::Entry</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Entry (const char * <I>path</I>,
+       unsigned long <I>size</I>,
+       void * <I>context</I>);
+
+     <I>path</I> :  File pathname.
+     <I>size</I> :  File size.
+     <I>context</I> :  Context data to be returned from <A HREF="#TAG0009">GetContext</A>.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ File entry constructor.</TD></TR></TABLE></BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

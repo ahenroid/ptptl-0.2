@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>PTP::List</TITLE>
+</HEAD>
+<BODY  BGCOLOR="FFFFFF">
+<H1>PTP::List</H1>
+<H2>Synopsis</H2>
+<TABLE WIDTH="100% CELLPADDING="0">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#include &lt;ptp/list.h&gt;
+
+class              <A HREF="#TAG0000">PTP::List</A>                 <I></I>;
+
+<A HREF="#TAG0001">PTP::List::Entry</A> * <A HREF="#TAG0012">PTP::List::GetHead</A>        (<I></I>);
+<A HREF="#TAG0001">PTP::List::Entry</A> * <A HREF="#TAG0013">PTP::List::GetTail</A>        (<I></I>);
+void               <A HREF="#TAG0014">PTP::List::Insert</A>         (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+                                              int <I>lock</I>);
+void               <A HREF="#TAG0015">PTP::List::Append</A>         (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+                                              int <I>lock</I>);
+void               <A HREF="#TAG0016">PTP::List::Remove</A>         (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+                                              int <I>lock</I>);
+                   <A HREF="#TAG0006">PTP::List::List</A>           (<I></I>);
+                   <A HREF="#TAG0007">PTP::List::List</A>           (int <I>locking</I>);
+                   <A HREF="#TAG0008">PTP::List::~List</A>          (<I></I>);
+void               <A HREF="#TAG0009">PTP::List::Lock</A>           (<I></I>);
+void               <A HREF="#TAG0010">PTP::List::Unlock</A>         (<I></I>);
+int                <A HREF="#TAG0011">PTP::List::IsValid</A>        (<A HREF="#TAG0001">Entry</A> * <I>entry</I>) const;
+
+class              <A HREF="#TAG0001">PTP::List::Entry</A>          <I></I>;
+
+                   <A HREF="#TAG0003">PTP::List::Entry::Entry</A>   (<I></I>);
+<A HREF="#TAG0001">PTP::List::Entry</A> * <A HREF="#TAG0004">PTP::List::Entry::GetNext</A> (<I></I>);
+<A HREF="#TAG0001">PTP::List::Entry</A> * <A HREF="#TAG0005">PTP::List::Entry::GetPrev</A> (<I></I>);
+
+#define            <A HREF="#TAG0002">PTP_LIST_FOREACH</A>          (<I>type</I>,
+                                              <I>iterator</I>,
+                                              <I>list</I>);
+</PRE></TD></TR></TABLE>
+<H2>Details</H2>
+<BR>
+<H3><A NAME="TAG0000"></A>PTP::List</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::List<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Doubly-linked list with lock.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0012"></A>PTP::List::GetHead</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::List::Entry</A> * GetHead (<I></I>);
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Head of list or NULL if empty.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0013"></A>PTP::List::GetTail</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::List::Entry</A> * GetTail (<I></I>);
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Tail of list or NULL if empty.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0014"></A>PTP::List::Insert</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Insert (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+             int <I>lock</I>);
+
+     <I>entry</I> :  New list entry.
+     <I>lock</I> :  1 to acquire lock (default) or 0 for no locking.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Insert entry at the head of the list.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  class A:public PTP::List::Entry {...};
+  A x;
+  PTP::List list;
+  list.<B>Insert</B>(&x);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0015"></A>PTP::List::Append</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Append (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+             int <I>lock</I>);
+
+     <I>entry</I> :  New list entry.
+     <I>lock</I> :  1 to acquire lock (default) or 0 for no locking.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Append entry to the tail of the list.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  class A:public PTP::List::Entry {...};
+  A x;
+  PTP::List list;
+  list.<B>Append</B>(&x);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0016"></A>PTP::List::Remove</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Remove (<A HREF="#TAG0001">Entry</A> * <I>entry</I>,
+             int <I>lock</I>);
+
+     <I>entry</I> :  Existing list entry.
+     <I>lock</I> :  1 to acquire lock (default) or 0 for no locking.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Remove entry from the list.</TD></TR></TABLE></BR>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  class A:public PTP::List::Entry {...};
+  A x;
+  PTP::List list;
+  list.Insert(&x);
+  ...
+  list.<B>Remove</B>(&x);
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0006"></A>PTP::List::List</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+List (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0007"></A>PTP::List::List</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+List (int <I>locking</I>);
+
+     <I>locking</I> :  1 to use locking (default) or 0 for no locking.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0008"></A>PTP::List::~List</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+~List (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class destructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0009"></A>PTP::List::Lock</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Lock (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Acquire the list lock.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0010"></A>PTP::List::Unlock</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+void Unlock (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Release the list lock.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0011"></A>PTP::List::IsValid</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+int IsValid (<A HREF="#TAG0001">Entry</A> * <I>entry</I>) const;
+
+     <I>entry</I> :  List entry.
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ 1 if <I>entry</I> is a valid list element or else 0.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0001"></A>PTP::List::Entry</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+class PTP::List::Entry<I></I>;
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Basic list entry.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0003"></A>PTP::List::Entry::Entry</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+Entry (<I></I>);
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Class constructor.</TD></TR></TABLE></BR>
+<BR>
+<H3><A NAME="TAG0004"></A>PTP::List::Entry::GetNext</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::List::Entry</A> * GetNext (<I></I>);
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Next list element.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0005"></A>PTP::List::Entry::GetPrev</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+<A HREF="#TAG0001">PTP::List::Entry</A> * GetPrev (<I></I>);
+</PRE></TD></TR></TABLE>
+<H4>Returns</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ Previous list element.
+</P>
+</TD></TR></TABLE>
+<BR>
+<H3><A NAME="TAG0002"></A>PTP_LIST_FOREACH</H3>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD BGCOLOR="#DDDDDD">
+<PRE>
+#define PTP_LIST_FOREACH (<I>type</I>,
+                          <I>iterator</I>,
+                          <I>list</I>);
+
+     <I>type</I> :  Iterator type.
+     <I>iterator</I> :  Iterator variable.
+     <I>list</I> :  List.
+</PRE></TD></TR></TABLE>
+<TABLE CELLSPACING="0" WIDTH="100%"><BR>
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+ Iterate through each element of a list.</TD></TR></TABLE></BR>
+<H4>Notes</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<P>
+ The list should be locked in multi-threaded environments.
+       Also, note that C/C++ <B>break</B> and <B>continue</B> statements
+       work correctly from within the block.
+</P>
+</TD></TR></TABLE>
+<H4>Example</H4>
+<TABLE CELLSPACING="0" WIDTH="100%">
+<TR>
+<TD WIDTH="1%"></TD>
+<TD>
+<PRE>
+  class A:public PTP::List::Entry {...};
+  PTP::List list;
+  ...
+  A *x;
+  list.Lock();
+  <B>PTP_LIST_FOREACH</B>(A, x, &list)
+  {
+      ...
+  }
+  list.Unlock();
+</PRE>
+</TD></TR></TABLE>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>
